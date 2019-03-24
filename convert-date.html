@@ -1,0 +1,117 @@
+<html><head>
+<meta charset="utf-8">
+
+<script>
+
+function wordToDigit(str1) {
+  t = str1;
+  months1 = [".","january","february","march","april","may","june","july","august","september","october","november","december"];
+  months2 = [".","jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+  months3 = [".","января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+  months4 = [".","янв","фев","мар","апр","мая","июн","июл","авг","сен","окт","ноя","дек"];
+
+  for(i = 0; i < 13; ++i) {
+   t = t.replace(months1[i], i);
+   t = t.replace(months2[i], i);
+   t = t.replace(months3[i], i);
+   t = t.replace(months4[i], i);
+  }
+  return (t);
+}
+
+  function aDate(){
+  t = document.getElementById("input1").value.toLowerCase();
+  d = document.getElementById("outTxt1");
+  cap1 = document.getElementById("cap1");
+
+  t = t.replace(/[.,\\\/#!$%\^&\*;:{}=\-_`~()]/g," ");
+
+  t = t.replace(/ of/g," ");
+  t = t.replace(/([0-9])st/g,"$1");
+  t = t.replace(/([0-9])nd/g,"$1");
+  t = t.replace(/([0-9])rd/g,"$1");
+  t = t.replace(/([0-9])th/g,"$1");
+  t = t.replace(/([0-9]) е /g,"$1 ");
+  t = t.replace(/([0-9]) ое /g,"$1 ");
+
+  t = t.replace(/\s\s+/g, ' ');
+  
+  dateArray = t.split(" ");
+  dateFormat = "unknown date";
+  monthPos = -1;
+  
+  if (isNaN(dateArray[0])) {
+   /* Apr 01, 2010 */
+   dateFormat = "Apr 01, 2010"; 
+   dateArray[0] = wordToDigit(dateArray[0]);
+   monthPos = 0;
+   dayPos = 1;
+   yearPos = 2;
+  }
+  
+  if (isNaN(dateArray[1])) {
+   /* 01-Apr-2010 */
+   dateFormat = "01-Apr-2010";
+   dateArray[1] = wordToDigit(dateArray[1]);
+   monthPos = 1;
+   dayPos = 0;
+   yearPos = 2;
+  }
+  
+  if (isNaN(dateArray[2])) {
+   /* 2010, 01 April */
+   dateFormat = "2010, 01 April"; 
+   dateArray[2] = wordToDigit(dateArray[2]);
+   monthPos = 2;
+   dayPos = 1;
+   yearPos = 0;
+  }
+  
+  if(monthPos == -1 && dateArray[0] > 1000) {
+   dateFormat = "2010-04-01"
+   monthPos = 1;
+   dayPos = 2;
+   yearPos = 0;
+  }
+  
+  if(monthPos == -1 && dateArray[2] > 1000) {
+   dateFormat = "01-04-2010"
+   monthPos = 1;
+   dayPos = 0;
+   yearPos = 2;
+  }
+  
+  if(monthPos == -1 && dateArray[2] < 100) {
+   dateFormat = "01/04/10"
+   monthPos = 1;
+   dayPos = 0;
+   yearPos = 2;
+  }
+  theMonth = dateArray[monthPos];
+  if(theMonth.length < 2) theMonth = "0" + "" + theMonth;
+  
+  theDay = dateArray[dayPos];
+  if(theDay.length < 2) theDay = "0" + "" + theDay;
+    
+  theYear = dateArray[yearPos];
+  if(theYear.length < 3) theYear = "20" + "" + theYear;
+  
+  /* OUTPUT */
+  cap1.innerHTML = "Format: " + dateFormat + ". Copied to clipboard.";
+  d.value = theYear + "" + theMonth + "" + theDay + " ";
+  d.select();
+  document.execCommand("copy");
+
+  
+}
+</script></head>
+
+<body>
+
+<input type="text" onchange="aDate();" id="input1"></input>
+<br>
+<input type="text" div id="outTxt1"></div>
+<br>
+<span id="cap1"></span>
+</body>
+</html>

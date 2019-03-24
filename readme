@@ -1,0 +1,16 @@
+convert-date
+
+Input a date in various formats and get a 20100401 format date. 
+
+Possible formats (English + Russian)
+Apr 01, 2010 
+1 апреля 2010
+01-Apr-2010
+2010, 01 April
+2010-04-01
+2010 апреля 1
+01-04-2010
+01/04/10
+1-ое апреля 2010
+1st April 2010
+
